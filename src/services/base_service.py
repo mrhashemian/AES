@@ -9,14 +9,27 @@ class ServiceValidationError(Exception):
 
 
 class BaseService(ABC):
-    def __init__(self, ):
+    def __init__(self, block_size):
         self.validation_errors = []
         self.process_time = None
+        self.block_size = block_size
 
     def add_error(self, message: str, error_code: int = 0, fields: List = None):
         self.validation_errors.append({"message": message,
                                        "error_code": error_code,
                                        "fields": fields if fields is not None else []})
+
+    def _pad(self, plain_text):
+        number_of_bytes_to_pad = self.block_size - len(plain_text) % self.block_size
+        ascii_string = chr(number_of_bytes_to_pad)
+        padding_str = number_of_bytes_to_pad * ascii_string
+        padded_plain_text = plain_text + padding_str
+        return padded_plain_text
+
+    @staticmethod
+    def _unpad(plain_text):
+        last_character = plain_text[len(plain_text) - 1:]
+        return plain_text[:-ord(last_character)]
 
     @abstractmethod
     def validate(self):

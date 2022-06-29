@@ -1,8 +1,5 @@
 from typing_extensions import Literal
-
 from services.base_service import BaseService
-
-# import hashlib
 from Crypto.Hash import SHA256
 from Crypto import Random
 from Crypto.Cipher import AES
@@ -12,13 +9,12 @@ from base64 import b64encode, b64decode
 class AESService(BaseService):
     def __init__(self, key, mode: Literal["encrypt", "decrypt"], text):
         self.mode = mode
-        self.block_size = AES.block_size
         self.key = SHA256.new(data=key.encode()).digest()
         self.text = text
-        super().__init__()
+        super().__init__(block_size=AES.block_size)
 
     def encrypt(self, plain_text):
-        plain_text = self.__pad(plain_text)
+        plain_text = self._pad(plain_text)
         iv = Random.new().read(self.block_size)
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         encrypted_text = cipher.encrypt(plain_text.encode())
@@ -29,19 +25,7 @@ class AESService(BaseService):
         iv = encrypted_text[:self.block_size]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         plain_text = cipher.decrypt(encrypted_text[self.block_size:]).decode("utf-8")
-        return self.__unpad(plain_text)
-
-    def __pad(self, plain_text):
-        number_of_bytes_to_pad = self.block_size - len(plain_text) % self.block_size
-        ascii_string = chr(number_of_bytes_to_pad)
-        padding_str = number_of_bytes_to_pad * ascii_string
-        padded_plain_text = plain_text + padding_str
-        return padded_plain_text
-
-    @staticmethod
-    def __unpad(plain_text):
-        last_character = plain_text[len(plain_text) - 1:]
-        return plain_text[:-ord(last_character)]
+        return self._unpad(plain_text)
 
     def validate(self):
         pass
