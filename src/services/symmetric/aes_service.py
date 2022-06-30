@@ -33,10 +33,11 @@ class AESService(BaseService):
     def process(self):
         if self.mode == "encrypt":
             return self.encrypt(self.text)
-        else:
-            self.decrypt(self.text)
+        return self.decrypt(self.text)
 
 
 if __name__ == "__main__":
-    aes = AESService(key="39393", mode="encrypt", text="aaa")
-    print(aes.execute())
+    aes_encrypt = AESService(key="39393", mode="encrypt", text="aaa").execute()
+    print(aes_encrypt)
+    aes_decrypt = AESService(key="39393", mode="decrypt", text=aes_encrypt).execute()
+    print(aes_decrypt)
