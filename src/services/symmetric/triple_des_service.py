@@ -35,7 +35,8 @@ class TripleDESService(BaseService):
         return self._unpad(plain_text)
 
     def validate(self):
-        pass
+        if self.key and len(self.key) not in DES3.key_size:
+            self.add_error(message="Not a valid TDES key", fields=["key"])
 
     def process(self):
         if self.mode == "encrypt":
