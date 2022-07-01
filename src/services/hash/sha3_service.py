@@ -11,7 +11,7 @@ class SHA3Service(BaseService):
     def encode(plain_text):
         hash_object = SHA3_256.new()
         hash_object.update(plain_text.encode())
-        return hash_object.digest()
+        return hash_object.hexdigest()
 
     def validate(self):
         pass
