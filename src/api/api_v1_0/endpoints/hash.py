@@ -25,13 +25,13 @@ def sha3_algorithm(data: HashSchema):
     return SHA3Service(text=data.text).execute()
 
 
-@router.post("/sha3/encode/{digestmod}")
+@router.post("/hmac/encode/{digestmod}")
 def hmac_algorithm_encode(digestmod: Literal["SHA1", "SHA256", "SHA512", "SHA3_256", "SHA3_512"],
                           data: HMACSchema):
     return HMACService("encode", data.secret, digestmod, data.plain_text, None).execute()
 
 
-@router.post("/sha3/verify/{digestmod}")
+@router.post("/hmac/verify/{digestmod}")
 def hmac_algorithm_verify(digestmod: Literal["SHA1", "SHA256", "SHA512", "SHA3_256", "SHA3_512"],
                           data: HMACVerifySchema):
     return HMACService("verify", data.secret, digestmod, data.plain_text, data.hashed_text).execute()
