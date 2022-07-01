@@ -34,11 +34,12 @@ class AESService(BaseService):
 
     def decrypt(self, encrypted_text):
         encrypted_text = b64decode(encrypted_text)
-        iv = encrypted_text[:self.block_size]
         if self.mode in [AES.MODE_ECB, AES.MODE_CTR, AES.MODE_CCM, AES.MODE_OCB]:
             cipher = AES.new(self.key, self.mode)
             plain_text = cipher.decrypt(encrypted_text).decode("utf-8")
             return self._unpad(plain_text)
+
+        iv = encrypted_text[:self.block_size]
         cipher = AES.new(self.key, self.mode, iv)
         plain_text = cipher.decrypt(encrypted_text[self.block_size:]).decode("utf-8")
         return self._unpad(plain_text)
@@ -59,7 +60,8 @@ class AESService(BaseService):
 
 
 if __name__ == "__main__":
-    aes_encrypt = AESService(key="39393", action="encrypt", text="aaa").execute()
+    aes_encrypt = AESService(key="39393", action="encrypt", text="aaa", mode=AESMode.MODE_ECB.description).execute()
     print(aes_encrypt)
-    aes_decrypt = AESService(key="39393", action="decrypt", text=aes_encrypt).execute()
+    aes_decrypt = AESService(key="39393", action="decrypt", text=aes_encrypt,
+                             mode=AESMode.MODE_ECB.description).execute()
     print(aes_decrypt)
