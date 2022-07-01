@@ -9,7 +9,7 @@ class ServiceValidationError(Exception):
 
 
 class BaseService(ABC):
-    def __init__(self, block_size):
+    def __init__(self, block_size=None):
         self.validation_errors = []
         self.process_time = None
         self.block_size = block_size

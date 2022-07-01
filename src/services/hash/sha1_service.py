@@ -1,12 +1,11 @@
 from services.base_service import BaseService
 from Crypto.Hash import SHA1
-from Crypto.Cipher import AES
 
 
 class SHA1Service(BaseService):
     def __init__(self, text):
         self.text = text
-        super().__init__(block_size=AES.block_size)
+        super().__init__()
 
     @staticmethod
     def encode(plain_text):
