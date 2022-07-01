@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from api.schemas.symmetric.aes_schema import HashSchema
+from api.schemas.hash_schema import HashSchema
 from services.hash.sha1_service import SHA1Service
 from services.hash.sha2_service import SHA2Service
 from services.hash.sha3_service import SHA3Service
