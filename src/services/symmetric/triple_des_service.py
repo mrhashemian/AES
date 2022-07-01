@@ -1,5 +1,4 @@
 from typing_extensions import Literal
-
 from config.enums import TDESMode
 from services.base_service import BaseService
 from Crypto import Random
@@ -75,5 +74,5 @@ if __name__ == "__main__":
     print(res)
     des_decrypted = TripleDESService(action="decrypt", text=res["encrypted_text"],
                                      mode=TDESMode.MODE_CBC.description,
-                                     key=b64decode(res["key"])).execute()
+                                     key=res["key"]).execute()
     print(des_decrypted)
