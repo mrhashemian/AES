@@ -1,3 +1,5 @@
 pydantic~=1.9.1
 fastapi~=0.78.0
 starlette~=0.19.1
+uvicorn~=0.18.2
+pycryptodome==3.15.0
