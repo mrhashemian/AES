@@ -1,6 +1,6 @@
 from typing_extensions import Literal
 from fastapi import APIRouter
-from api.schemas.symmetric.aes_schema import AESSchema, TDESSchema
+from api.schemas.symmetric_schema import AESSchema, TDESSchema
 from config.enums import AESMode, TDESMode
 from services.symmetric.aes_service import AESService
 from services.symmetric.triple_des_service import TripleDESService

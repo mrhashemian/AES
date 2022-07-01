@@ -10,7 +10,7 @@ class SHA1Service(BaseService):
     @staticmethod
     def encode(plain_text):
         hash_object = SHA1.new(data=plain_text.encode())
-        return hash_object.digest()
+        return hash_object.hexdigest()
 
     def validate(self):
         pass
